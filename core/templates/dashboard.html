@@ -1,0 +1,504 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard - neetEase</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f6f7ff;
+    color: #17245c;
+}
+
+.dashboard { display: flex; min-height: 100vh; }
+
+.sidebar {
+    width: 230px;
+    flex-shrink: 0;
+    background: white;
+    border-right: 1px solid #e4e6f5;
+    padding: 25px 15px;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: bold;
+    margin: 0 0 35px 12px;
+}
+.logo span { color: #5141d9; }
+
+.menu a {
+    display: block;
+    padding: 13px 15px;
+    margin-bottom: 7px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #657094;
+    font-size: 14px;
+}
+
+.menu a:hover, .menu a.active {
+    background: #eeeeff;
+    color: #5141d9;
+    font-weight: bold;
+}
+
+.main {
+    flex: 1;
+    min-width: 0;
+    padding: 30px 35px;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 28px;
+}
+
+.welcome h1 { font-size: 25px; margin-bottom: 6px; }
+.welcome p { color: #78809b; font-size: 14px; }
+
+.profile {
+    background: white;
+    padding: 10px 18px;
+    border-radius: 12px;
+    border: 1px solid #e4e6f5;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 22px;
+}
+
+.card {
+    background: white;
+    border-radius: 15px;
+    padding: 22px;
+    border: 1px solid #e7e8f5;
+    box-shadow: 0 4px 15px rgba(50,50,100,0.04);
+}
+
+.card-title {
+    color: #78809b;
+    font-size: 13px;
+    margin-bottom: 12px;
+}
+
+.big-number {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.small-text {
+    font-size: 12px;
+    color: #78809b;
+    margin-top: 5px;
+}
+
+.chart-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 22px;
+}
+
+.chart-card { min-width: 0; }
+
+.section-title {
+    font-size: 17px;
+    margin-bottom: 8px;
+}
+
+.chart-description {
+    color: #78809b;
+    font-size: 12px;
+    margin-bottom: 13px;
+}
+
+.chart-container {
+    height: 260px;
+    position: relative;
+}
+
+.content {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 20px;
+}
+
+.achievement {
+    display: flex;
+    align-items: center;
+    padding: 13px 0;
+    border-bottom: 1px solid #eeeeF5;
+}
+
+.achievement:last-child { border-bottom: none; }
+
+.check {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #e4faf2;
+    color: #149c73;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+}
+
+.achievement-text { font-size: 14px; }
+
+.focus {
+    background: linear-gradient(135deg, #f0efff, #faf9ff);
+}
+
+.focus p {
+    color: #687394;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #5141d9;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 13px;
+}
+
+.button:hover { background: #4032c0; }
+
+@media (max-width: 1000px) {
+    .chart-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 850px) {
+    .sidebar { width: 180px; }
+    .stats { grid-template-columns: 1fr; }
+    .content { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+    .dashboard { display: block; }
+    .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #e4e6f5;
+    }
+    .main { padding: 20px; }
+    .topbar { align-items: flex-start; gap: 12px; }
+    .profile { font-size: 12px; }
+}
+</style>
+</head>
+
+<body>
+<div class="dashboard">
+
+<aside class="sidebar">
+    <div class="logo">neet<span>Ease</span></div>
+
+    <nav class="menu">
+        <a href="{% url 'dashboard' %}" class="active">🏠 Home</a>
+        <a href="{% url 'study_materials' %}">📚 Study Materials</a>
+        <a href="{% url 'mock_tests' %}">📝 Mock Tests</a>
+        <a href="{% url 'analytics' %}">📊 Analytics</a>
+        <a href="{% url 'wellbeing' %}">❤️ Well-being</a>
+        <a href="{% url 'profile' %}">👤 Profile</a>
+        <a href="{% url 'chatbot' %}">🤖 AI Study Assistant</a>
+    </nav>
+</aside>
+
+<main class="main">
+
+    <div class="topbar">
+        <div class="welcome">
+            <h1>Good Evening, {{ request.user.first_name|default:request.user.username }}! 👋</h1>
+            <p>Your learning progress at a glance.</p>
+        </div>
+        <div class="profile">👤 Student</div>
+    </div>
+
+    <!-- PERFORMANCE CARDS -->
+    <div class="stats">
+
+        <div class="card">
+            <div class="card-title">⏱ Study Hours</div>
+            <div class="big-number">6.2 hrs</div>
+            <div class="small-text">Daily goal: 8 hours</div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">📈 Mock Score</div>
+            <div class="big-number">562 / 720</div>
+            <div class="small-text">78% of total marks</div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">✅ Questions Solved</div>
+            <div class="big-number">68 / 100</div>
+            <div class="small-text">Today's target</div>
+        </div>
+
+    </div>
+
+    <!-- DATA SCIENCE CHARTS -->
+    <div class="chart-grid">
+
+        <!-- 1. MOCK TEST PERFORMANCE -->
+        <section class="card chart-card">
+            <h2 class="section-title">📈 Mock Test Performance</h2>
+            <p class="chart-description">Score progression across practice tests</p>
+            <div class="chart-container">
+                <canvas id="performanceChart"></canvas>
+            </div>
+        </section>
+
+        <!-- 2. SUBJECT PERFORMANCE -->
+        <section class="card chart-card">
+            <h2 class="section-title">📊 Subject-wise Performance</h2>
+            <p class="chart-description">Comparison of marks across NEET subjects</p>
+            <div class="chart-container">
+                <canvas id="subjectChart"></canvas>
+            </div>
+        </section>
+
+        <!-- 3. WELLBEING ANALYTICS -->
+        <section class="card chart-card">
+            <h2 class="section-title">💚 Well-being Analytics</h2>
+            <p class="chart-description">Illustrative daily stress, sleep and study patterns</p>
+            <div class="chart-container">
+                <canvas id="wellbeingChart"></canvas>
+            </div>
+        </section>
+
+        <!-- 4. QUESTION PROGRESS PIE CHART -->
+        <section class="card chart-card">
+            <h2 class="section-title">🥧 Question Progress</h2>
+            <p class="chart-description">Completed questions versus remaining target</p>
+            <div class="chart-container">
+                <canvas id="questionChart"></canvas>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- ACHIEVEMENTS AND FOCUS -->
+    <div class="content">
+
+        <section class="card">
+            <h2 class="section-title">Today's Achievements</h2>
+
+            <div class="achievement">
+                <div class="check">✓</div>
+                <div class="achievement-text">Completed 2 Mock Tests</div>
+            </div>
+
+            <div class="achievement">
+                <div class="check">✓</div>
+                <div class="achievement-text">Studied for 6+ Hours</div>
+            </div>
+
+            <div class="achievement">
+                <div class="check">✓</div>
+                <div class="achievement-text">Solved 68 Questions</div>
+            </div>
+        </section>
+
+        <section class="card focus">
+            <h2 class="section-title">🎯 Focus of the Day</h2>
+            <p>
+                Improve your Physics numerical problem-solving skills
+                through focused practice and revision.
+            </p>
+            <a href="{% url 'study_materials' %}" class="button">
+                View Study Materials
+            </a>
+        </section>
+
+    </div>
+
+</main>
+</div>
+
+<script>
+
+/* 1. MOCK TEST PERFORMANCE LINE CHART */
+new Chart(document.getElementById("performanceChart"), {
+    type: "line",
+    data: {
+        labels: ["Test 1", "Test 2", "Test 3", "Test 4", "Test 5"],
+        datasets: [{
+            label: "Mock Test Score",
+            data: [420, 465, 490, 525, 562],
+            borderColor: "#5141d9",
+            backgroundColor: "rgba(81,65,217,0.12)",
+            fill: true,
+            tension: 0.35,
+            pointRadius: 5
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { display: true }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 720,
+                title: { display: true, text: "Score" }
+            }
+        }
+    }
+});
+
+
+/* 2. SUBJECT-WISE PERFORMANCE BAR CHART */
+new Chart(document.getElementById("subjectChart"), {
+    type: "bar",
+    data: {
+        labels: ["Biology", "Chemistry", "Physics"],
+        datasets: [{
+            label: "Marks",
+            data: [320, 145, 97],
+            backgroundColor: ["#5141d9", "#8b7fe8", "#b5aef5"],
+            borderRadius: 7
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { display: false }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 360,
+                title: { display: true, text: "Marks" }
+            }
+        }
+    }
+});
+
+
+/* 3. WELL-BEING ANALYTICS LINE CHART */
+new Chart(document.getElementById("wellbeingChart"), {
+    type: "line",
+    data: {
+        labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+        datasets: [
+            {
+                label: "Stress Level",
+                data: [7, 6, 8, 5, 6, 4, 5],
+                borderColor: "#e28b8b",
+                backgroundColor: "rgba(226,139,139,0.10)",
+                tension: 0.35,
+                yAxisID: "y"
+            },
+            {
+                label: "Sleep Hours",
+                data: [6, 7, 5, 8, 7, 8, 7],
+                borderColor: "#329b78",
+                backgroundColor: "rgba(50,155,120,0.10)",
+                tension: 0.35,
+                yAxisID: "y1"
+            },
+            {
+                label: "Study Hours",
+                data: [5, 6, 7, 6, 8, 7, 6],
+                borderColor: "#5141d9",
+                backgroundColor: "rgba(81,65,217,0.10)",
+                tension: 0.35,
+                yAxisID: "y1"
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: {
+            mode: "index",
+            intersect: false
+        },
+        plugins: {
+            legend: { position: "bottom" }
+        },
+        scales: {
+            y: {
+                type: "linear",
+                position: "left",
+                min: 0,
+                max: 10,
+                title: {
+                    display: true,
+                    text: "Stress (1–10)"
+                }
+            },
+            y1: {
+                type: "linear",
+                position: "right",
+                min: 0,
+                max: 10,
+                grid: {
+                    drawOnChartArea: false
+                },
+                title: {
+                    display: true,
+                    text: "Hours"
+                }
+            }
+        }
+    }
+});
+
+
+/* 4. QUESTION PROGRESS PIE CHART */
+new Chart(document.getElementById("questionChart"), {
+    type: "pie",
+    data: {
+        labels: ["Questions Solved", "Remaining"],
+        datasets: [{
+            data: [68, 32],
+            backgroundColor: ["#5141d9", "#dedaf9"],
+            borderColor: "#ffffff",
+            borderWidth: 3
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: "bottom"
+            },
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        return context.label + ": " + context.raw + " questions";
+                    }
+                }
+            }
+        }
+    }
+});
+
+</script>
+
+</body>
+</html>

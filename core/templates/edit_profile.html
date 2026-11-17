@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Profile - neetEase</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f6f7ff;
+            color: #17245c;
+        }
+
+        .dashboard {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 230px;
+            background: white;
+            border-right: 1px solid #e4e6f5;
+            padding: 25px 15px;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 35px;
+            padding-left: 12px;
+        }
+
+        .logo span {
+            color: #5141d9;
+        }
+
+        .menu a {
+            display: block;
+            padding: 13px 15px;
+            margin-bottom: 7px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #657094;
+            font-size: 14px;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background: #eeeeff;
+            color: #5141d9;
+            font-weight: bold;
+        }
+
+        .main {
+            flex: 1;
+            padding: 30px 35px;
+        }
+
+        .topbar {
+            margin-bottom: 25px;
+        }
+
+        .topbar h1 {
+            font-size: 25px;
+            margin-bottom: 7px;
+        }
+
+        .topbar p {
+            color: #78809b;
+            font-size: 14px;
+        }
+
+        .card {
+            max-width: 700px;
+            background: white;
+            border-radius: 15px;
+            padding: 28px;
+            border: 1px solid #e7e8f5;
+            box-shadow: 0 4px 15px rgba(50, 50, 100, 0.04);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: #566080;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #dfe2f0;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #17245c;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: #5141d9;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        .button {
+            padding: 11px 20px;
+            background: #5141d9;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 13px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background: #4032c0;
+        }
+
+        .cancel {
+            background: #eeeeff;
+            color: #5141d9;
+        }
+
+        .cancel:hover {
+            background: #e2e1ff;
+        }
+
+        @media (max-width: 600px) {
+
+            .dashboard {
+                display: block;
+            }
+
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #e4e6f5;
+            }
+
+            .main {
+                padding: 20px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            neet<span>Ease</span>
+        </div>
+
+        <nav class="menu">
+
+            <a href="{% url 'dashboard' %}">
+                🏠 Home
+            </a>
+
+            <a href="{% url 'study_materials' %}">
+                📚 Study Materials
+            </a>
+
+            <a href="{% url 'mock_tests' %}">
+                📝 Mock Tests
+            </a>
+
+            <a href="#">
+                📊 Analytics
+            </a>
+
+            <a href="{% url 'wellbeing' %}">
+                ❤️ Well-being
+            </a>
+
+            <a href="{% url 'profile' %}" class="active">
+                👤 Profile
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+        <div class="topbar">
+
+            <h1>
+                Edit Profile ✏️
+            </h1>
+
+            <p>
+                Update your neetEase account information.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <div class="form-group">
+
+                    <label for="full_name">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="full_name"
+                        name="full_name"
+                        value="{{ request.user.first_name }}"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value="{{ request.user.email }}"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="mobile">
+                        Mobile Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="mobile"
+                        name="mobile"
+                        value="{{ profile.mobile }}"
+                        placeholder="Enter your mobile number"
+                    >
+
+                </div>
+
+
+                <div class="buttons">
+
+                    <button type="submit" class="button">
+                        Save Changes
+                    </button>
+
+                    <a href="{% url 'profile' %}" class="button cancel">
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

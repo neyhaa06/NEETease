@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock Tests - neetEase</title>
+
+    <style>
+        *{
+            box-sizing:border-box;
+            margin:0;
+            padding:0;
+        }
+
+        body{
+            font-family:Arial,sans-serif;
+            background:#f6f7ff;
+            color:#17245c;
+        }
+
+        .dashboard{
+            display:flex;
+            min-height:100vh;
+        }
+
+        /* Sidebar */
+
+        .sidebar{
+            width:230px;
+            background:white;
+            border-right:1px solid #e4e6f5;
+            padding:25px 15px;
+        }
+
+        .logo{
+            font-size:25px;
+            font-weight:bold;
+            margin:0 0 35px 12px;
+        }
+
+        .logo span{
+            color:#5141d9;
+        }
+
+        .menu a{
+            display:block;
+            padding:13px 15px;
+            margin-bottom:7px;
+            border-radius:10px;
+            text-decoration:none;
+            color:#657094;
+            font-size:14px;
+        }
+
+        .menu a:hover,
+        .menu a.active{
+            background:#eeeeff;
+            color:#5141d9;
+            font-weight:bold;
+        }
+
+        /* Main */
+
+        .main{
+            flex:1;
+            padding:30px 35px;
+        }
+
+        .topbar{
+            margin-bottom:28px;
+        }
+
+        .topbar h1{
+            font-size:25px;
+            margin-bottom:6px;
+        }
+
+        .topbar p{
+            color:#78809b;
+            font-size:14px;
+        }
+
+        /* Test Card */
+
+        .test-card{
+            background:white;
+            border:1px solid #e7e8f5;
+            border-radius:15px;
+            box-shadow:0 4px 15px rgba(50,50,100,.04);
+            padding:28px;
+            max-width:1050px;
+        }
+
+        .test-card h2{
+            font-size:17px;
+            margin-bottom:8px;
+            color:#17245c;
+        }
+
+        .description{
+            color:#78809b;
+            font-size:14px;
+            margin-bottom:25px;
+        }
+
+        /* Subject Cards */
+
+        .subjects{
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:16px;
+            margin-bottom:25px;
+        }
+
+        .subject{
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            gap:10px;
+            border:1px solid #e4e6f5;
+            border-radius:12px;
+            padding:20px;
+            cursor:pointer;
+            transition:.2s;
+            background:white;
+            font-size:14px;
+            color:#17245c;
+        }
+
+        .subject:hover{
+            border-color:#5141d9;
+            background:#f7f6ff;
+        }
+
+        .subject input{
+            accent-color:#5141d9;
+        }
+
+        .year-label{
+            display:block;
+            font-size:14px;
+            font-weight:bold;
+            margin-bottom:10px;
+            color:#17245c;
+        }
+
+        select{
+            width:100%;
+            padding:14px;
+            border:1px solid #e4e6f5;
+            border-radius:10px;
+            font-size:14px;
+            background:white;
+            margin-bottom:24px;
+            color:#17245c;
+        }
+
+        .button{
+            display:block;
+            width:100%;
+            text-align:center;
+            padding:15px;
+            border:none;
+            border-radius:10px;
+            background:#5141d9;
+            color:white;
+            text-decoration:none;
+            font-size:15px;
+            font-weight:600;
+            transition:.2s;
+        }
+
+        .button:hover{
+            background:#4032c0;
+        }
+
+        @media(max-width:850px){
+
+            .sidebar{
+                width:180px;
+            }
+
+            .subjects{
+                grid-template-columns:1fr;
+            }
+
+            .main{
+                padding:22px;
+            }
+        }
+
+        @media(max-width:600px){
+
+            .dashboard{
+                display:block;
+            }
+
+            .sidebar{
+                width:100%;
+                border-right:none;
+                border-bottom:1px solid #e4e6f5;
+            }
+
+            .main{
+                padding:20px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            neet<span>Ease</span>
+        </div>
+
+        <nav class="menu">
+
+            <a href="{% url 'dashboard' %}">
+                🏠 Home
+            </a>
+
+            <a href="{% url 'study_materials' %}">
+                📚 Study Materials
+            </a>
+
+            <a href="{% url 'mock_tests' %}" class="active">
+                📝 Mock Tests
+            </a>
+
+            <a href="{% url 'analytics' %}">
+                📊 Analytics
+            </a>
+
+            <a href="{% url 'wellbeing' %}">
+                ❤️ Well-being
+            </a>
+
+            <a href="{% url 'profile' %}">
+                👤 Profile
+            </a>
+
+            <a href="{% url 'chatbot' %}">
+                🤖 AI Study Assistant
+            </a>
+
+        </nav>
+
+    </aside>
+
+    <main class="main">
+
+        <div class="topbar">
+
+            <h1>Mock Tests</h1>
+
+            <p>Test your preparation and improve your NEET score.</p>
+
+        </div>
+
+        <div class="test-card">
+
+            <h2>Full Syllabus Test</h2>
+
+            <p class="description">
+                Choose a subject and target year to start your test.
+            </p>
+
+            <div class="subjects">
+
+                <label class="subject">
+                    <input type="radio" name="subject" value="Physics">
+                    Physics
+                </label>
+
+                <label class="subject">
+                    <input type="radio" name="subject" value="Chemistry">
+                    Chemistry
+                </label>
+
+                <label class="subject">
+                    <input type="radio" name="subject" value="Biology">
+                    Biology
+                </label>
+
+            </div>
+
+            <label class="year-label">
+                Target Year
+            </label>
+
+            <select>
+
+                <option>2026</option>
+                <option>2027</option>
+                <option>2028</option>
+
+            </select>
+
+            <a href="{% url 'start_test' %}" class="button">
+                Start Test
+            </a>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>

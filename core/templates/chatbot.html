@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Study Assistant - neetEase</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f6f7ff;
+            color: #17245c;
+        }
+
+        .dashboard {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            width: 230px;
+            background: white;
+            border-right: 1px solid #e4e6f5;
+            padding: 25px 15px;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 35px;
+            padding-left: 12px;
+        }
+
+        .logo span {
+            color: #5141d9;
+        }
+
+        .menu a {
+            display: block;
+            padding: 13px 15px;
+            margin-bottom: 7px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #657094;
+            font-size: 14px;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background: #eeeeff;
+            color: #5141d9;
+            font-weight: bold;
+        }
+
+        /* MAIN */
+
+        .main {
+            flex: 1;
+            padding: 30px 35px;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .topbar {
+            margin-bottom: 20px;
+        }
+
+        .topbar h1 {
+            font-size: 25px;
+            margin-bottom: 7px;
+        }
+
+        .topbar p {
+            color: #78809b;
+            font-size: 14px;
+        }
+
+        /* CHAT */
+
+        .chat-container {
+            flex: 1;
+            background: white;
+            border: 1px solid #e7e8f5;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            min-height: 600px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(50, 50, 100, 0.04);
+        }
+
+        .chat-header {
+            padding: 18px 22px;
+            border-bottom: 1px solid #eeeeF5;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .bot-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #eeeeff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .chat-header h2 {
+            font-size: 16px;
+            margin-bottom: 3px;
+        }
+
+        .chat-header p {
+            font-size: 12px;
+            color: #78809b;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #36b37e;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        /* MESSAGES */
+
+        .messages {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+            background: #fafaff;
+        }
+
+        .message {
+            display: flex;
+            margin-bottom: 18px;
+        }
+
+        .message.bot {
+            justify-content: flex-start;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message-bubble {
+            max-width: 70%;
+            padding: 13px 16px;
+            border-radius: 14px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .message.bot .message-bubble {
+            background: white;
+            border: 1px solid #e5e6f2;
+            border-top-left-radius: 4px;
+        }
+
+        .message.user .message-bubble {
+            background: #5141d9;
+            color: white;
+            border-top-right-radius: 4px;
+        }
+
+        /* SUGGESTIONS */
+
+        .suggestions {
+            padding: 0 25px 15px;
+            background: #fafaff;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .suggestion {
+            padding: 8px 12px;
+            border: 1px solid #dedff0;
+            background: white;
+            border-radius: 20px;
+            color: #5141d9;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .suggestion:hover {
+            background: #eeeeff;
+        }
+
+        /* INPUT */
+
+        .chat-input-area {
+            padding: 15px 20px;
+            border-top: 1px solid #eeeeF5;
+            background: white;
+        }
+
+        .chat-form {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 13px 15px;
+            border: 1px solid #dfe2f0;
+            border-radius: 10px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .chat-input:focus {
+            border-color: #5141d9;
+        }
+
+        .send-button {
+            padding: 0 20px;
+            border: none;
+            border-radius: 10px;
+            background: #5141d9;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .send-button:hover {
+            background: #4032c0;
+        }
+
+        .disclaimer {
+            text-align: center;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #9a9fb3;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 850px) {
+
+            .sidebar {
+                width: 180px;
+            }
+
+            .main {
+                padding: 20px;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .dashboard {
+                display: block;
+            }
+
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #e4e6f5;
+            }
+
+            .main {
+                padding: 15px;
+            }
+
+            .chat-container {
+                min-height: 500px;
+            }
+
+            .message-bubble {
+                max-width: 85%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            neet<span>Ease</span>
+        </div>
+
+        <nav class="menu">
+
+            <a href="{% url 'dashboard' %}">
+                🏠 Home
+            </a>
+
+            <a href="{% url 'study_materials' %}">
+                📚 Study Materials
+            </a>
+
+            <a href="{% url 'mock_tests' %}">
+                📝 Mock Tests
+            </a>
+
+            <a href="#">
+                📊 Analytics
+            </a>
+
+            <a href="{% url 'wellbeing' %}">
+                ❤️ Well-being
+            </a>
+
+            <a href="{% url 'profile' %}">
+                👤 Profile
+            </a>
+
+            <a href="#" class="active">
+                🤖 AI Study Assistant
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+        <div class="topbar">
+
+            <h1>
+                AI Study Assistant 🤖
+            </h1>
+
+            <p>
+                Your study companion for NEET preparation.
+            </p>
+
+        </div>
+
+
+        <div class="chat-container">
+
+            <!-- CHAT HEADER -->
+
+            <div class="chat-header">
+
+                <div class="bot-avatar">
+                    🤖
+                </div>
+
+                <div>
+
+                    <h2>
+                        neetEase AI
+                    </h2>
+
+                    <p>
+                        <span class="status-dot"></span>
+                        Ready to help
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- MESSAGES -->
+
+            <div class="messages" id="messages">
+
+                <div class="message bot">
+
+                    <div class="message-bubble">
+
+                        Hi! 👋 I'm your neetEase study assistant.
+
+                        <br><br>
+
+                        You can ask me about Biology, Chemistry, Physics,
+                        NEET questions, revision strategies, or study planning.
+
+                        <br><br>
+
+                        What would you like to study today?
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- SUGGESTIONS -->
+
+            <div class="suggestions">
+
+                <button class="suggestion" onclick="useSuggestion(this)">
+                    Explain photosynthesis
+                </button>
+
+                <button class="suggestion" onclick="useSuggestion(this)">
+                    Help me revise Biology
+                </button>
+
+                <button class="suggestion" onclick="useSuggestion(this)">
+                    Explain a Physics concept
+                </button>
+
+                <button class="suggestion" onclick="useSuggestion(this)">
+                    Make a study plan
+                </button>
+
+            </div>
+
+
+            <!-- INPUT -->
+
+            <div class="chat-input-area">
+
+                <form class="chat-form" onsubmit="sendMessage(event)">
+
+                    <input
+                        type="text"
+                        id="chatInput"
+                        class="chat-input"
+                        placeholder="Ask your study question..."
+                        autocomplete="off"
+                    >
+
+                    <button type="submit" class="send-button">
+                        Send
+                    </button>
+
+                </form>
+
+                <div class="disclaimer">
+                    AI-generated responses should be checked against trusted
+                    study resources.
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<script>
+
+    function useSuggestion(button) {
+
+        const input = document.getElementById("chatInput");
+
+        input.value = button.innerText;
+
+        input.focus();
+
+    }
+
+
+    function sendMessage(event) {
+
+        event.preventDefault();
+
+        const input = document.getElementById("chatInput");
+        const messages = document.getElementById("messages");
+
+        const text = input.value.trim();
+
+        if (!text) {
+            return;
+        }
+
+        // Student message
+
+        const userMessage = document.createElement("div");
+
+        userMessage.className = "message user";
+
+        userMessage.innerHTML = `
+            <div class="message-bubble">
+                ${escapeHtml(text)}
+            </div>
+        `;
+
+        messages.appendChild(userMessage);
+
+        input.value = "";
+
+        messages.scrollTop = messages.scrollHeight;
+
+
+        // Temporary response
+
+        // Pre-written neetEase response
+
+setTimeout(function () {
+
+    let response = "I'm still learning! Try asking me about Biology, Chemistry, Physics, or study planning. 📚";
+
+    const lowerText = text.toLowerCase();
+
+    if (
+        lowerText.includes("photosynthesis") ||
+        lowerText.includes("photo synthesis")
+    ) {
+        response = `
+            <strong>🌱 Photosynthesis</strong><br><br>
+            Photosynthesis is the process by which green plants
+            make their own food using sunlight, carbon dioxide,
+            and water.<br><br>
+
+            <strong>Equation:</strong><br>
+            Carbon dioxide + Water → Glucose + Oxygen<br><br>
+
+            📌 <strong>NEET Tip:</strong> Photosynthesis mainly
+            takes place in the chloroplasts, and chlorophyll
+            absorbs light energy.
+        `;
+    }
+
+    else if (
+        lowerText.includes("biology") ||
+        lowerText.includes("revise biology")
+    ) {
+        response = `
+            <strong>🧬 Biology Revision</strong><br><br>
+            Try revising Biology in this order:<br><br>
+
+            1️⃣ Read the NCERT chapter carefully.<br>
+            2️⃣ Highlight important definitions and diagrams.<br>
+            3️⃣ Make short revision notes.<br>
+            4️⃣ Practice NEET-style MCQs.<br>
+            5️⃣ Review your mistakes.<br><br>
+
+            📌 Focus especially on NCERT-based facts and diagrams.
+        `;
+    }
+
+    else if (
+        lowerText.includes("physics") ||
+        lowerText.includes("physics concept")
+    ) {
+        response = `
+            <strong>⚡ Physics Study Tip</strong><br><br>
+            When learning a Physics concept, use this method:<br><br>
+
+            1️⃣ Understand the concept.<br>
+            2️⃣ Learn the important formula.<br>
+            3️⃣ Understand what each variable represents.<br>
+            4️⃣ Solve a simple numerical.<br>
+            5️⃣ Practice NEET-level questions.<br><br>
+
+            📌 Don't just memorise formulas — understand when to use them.
+        `;
+    }
+
+    else if (
+        lowerText.includes("study plan") ||
+        lowerText.includes("study schedule") ||
+        lowerText.includes("timetable")
+    ) {
+        response = `
+            <strong>📚 Simple NEET Study Plan</strong><br><br>
+
+            🌅 <strong>Morning:</strong> Biology revision<br>
+            ☀️ <strong>Afternoon:</strong> Physics concepts + numericals<br>
+            🌆 <strong>Evening:</strong> Chemistry<br>
+            🌙 <strong>Night:</strong> MCQs + mistake review<br><br>
+
+            ⏱️ Try studying in focused sessions with short breaks.<br><br>
+
+            Remember: consistency is more important than studying
+            for extremely long hours occasionally.
+        `;
+    }
+
+    else if (
+        lowerText.includes("chemistry") ||
+        lowerText.includes("chemical")
+    ) {
+        response = `
+            <strong>🧪 Chemistry Revision Tip</strong><br><br>
+
+            Divide Chemistry into three areas:<br><br>
+
+            🔹 <strong>Physical Chemistry:</strong> Focus on formulas
+            and numerical practice.<br>
+            🔹 <strong>Organic Chemistry:</strong> Understand reactions
+            and reaction mechanisms.<br>
+            🔹 <strong>Inorganic Chemistry:</strong> Revise NCERT facts,
+            trends, and important reactions.<br><br>
+
+            📌 Practice questions regularly and keep a list of
+            mistakes for revision.
+        `;
+    }
+
+    else if (
+        lowerText.includes("motivat") ||
+        lowerText.includes("tired") ||
+        lowerText.includes("stress") ||
+        lowerText.includes("stressed")
+    ) {
+        response = `
+            <strong>💙 Take a small pause.</strong><br><br>
+
+            You don't need to finish everything at once.<br><br>
+
+            Try this:<br>
+            🌿 Take a few deep breaths.<br>
+            💧 Drink some water.<br>
+            📖 Choose one small topic.<br>
+            ⏱️ Study it for 25 minutes.<br>
+            ☕ Then take a short break.<br><br>
+
+            One focused session is still progress. Keep going! 💪
+        `;
+    }
+
+    const botMessage = document.createElement("div");
+
+    botMessage.className = "message bot";
+
+    botMessage.innerHTML = `
+        <div class="message-bubble">
+            ${response}
+        </div>
+    `;
+
+    messages.appendChild(botMessage);
+
+    messages.scrollTop = messages.scrollHeight;
+
+}, 700);
+
+    }
+
+
+    function escapeHtml(text) {
+
+        const div = document.createElement("div");
+
+        div.textContent = text;
+
+        return div.innerHTML;
+
+    }
+
+</script>
+
+</body>
+
+</html>

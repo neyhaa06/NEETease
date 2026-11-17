@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Profile - neetEase</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f6f7ff;
+            color: #17245c;
+        }
+
+        .dashboard {
+            display: flex;
+            min-height: 100vh;
+        }
+        .button {
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 11px 20px;
+    background: #5141d9;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 13px;
+}
+
+.button:hover {
+    background: #4032c0;
+}
+
+        /* SIDEBAR */
+
+        .sidebar {
+            width: 230px;
+            background: white;
+            border-right: 1px solid #e4e6f5;
+            padding: 25px 15px;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 35px;
+            padding-left: 12px;
+        }
+
+        .logo span {
+            color: #5141d9;
+        }
+
+        .menu a {
+            display: block;
+            padding: 13px 15px;
+            margin-bottom: 7px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #657094;
+            font-size: 14px;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background: #eeeeff;
+            color: #5141d9;
+            font-weight: bold;
+        }
+
+        /* MAIN */
+
+        .main {
+            flex: 1;
+            padding: 30px 35px;
+        }
+
+        .topbar {
+            margin-bottom: 30px;
+        }
+
+        .topbar h1 {
+            font-size: 25px;
+            margin-bottom: 7px;
+        }
+
+        .topbar p {
+            color: #78809b;
+            font-size: 14px;
+        }
+
+        /* PROFILE HEADER */
+
+        .profile-header {
+            background: white;
+            border: 1px solid #e7e8f5;
+            border-radius: 16px;
+            padding: 25px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 22px;
+            box-shadow: 0 4px 15px rgba(50, 50, 100, 0.04);
+        }
+
+        .avatar {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            background: #eeeeff;
+            color: #5141d9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .profile-header h2 {
+            font-size: 21px;
+            margin-bottom: 6px;
+        }
+
+        .profile-header p {
+            color: #78809b;
+            font-size: 14px;
+        }
+
+        /* INFORMATION */
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid #e7e8f5;
+            box-shadow: 0 4px 15px rgba(50, 50, 100, 0.04);
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eeeeF5;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: #78809b;
+            font-size: 14px;
+        }
+
+        .info-value {
+            font-size: 14px;
+            font-weight: 500;
+            text-align: right;
+        }
+
+        /* BUTTON */
+
+        .button {
+            display: inline-block;
+            margin-top: 5px;
+            padding: 11px 20px;
+            background: #5141d9;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 13px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background: #4032c0;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 850px) {
+
+            .sidebar {
+                width: 180px;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .dashboard {
+                display: block;
+            }
+
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #e4e6f5;
+            }
+
+            .main {
+                padding: 20px;
+            }
+
+            .profile-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .info-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+            }
+
+            .info-value {
+                text-align: left;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            neet<span>Ease</span>
+        </div>
+
+        
+<nav class="menu">
+
+    <a href="{% url 'dashboard' %}">
+        🏠 Home
+    </a>
+
+    <a href="{% url 'study_materials' %}">
+        📚 Study Materials
+    </a>
+
+    <a href="{% url 'mock_tests' %}">
+        📝 Mock Tests
+    </a>
+
+    <a href="{% url 'analytics' %}">
+        📊 Analytics
+    </a>
+
+    <a href="{% url 'wellbeing' %}">
+        ❤️ Well-being
+    </a>
+
+    <a href="{% url 'profile' %}" class="active">
+        👤 Profile
+    </a>
+
+    <a href="{% url 'chatbot' %}">
+        🤖 AI Study Assistant
+    </a>
+
+</nav>
+
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+        <div class="topbar">
+
+            <h1>
+                Your Profile 👤
+            </h1>
+
+            <p>
+                View your account information and student details.
+            </p>
+
+        </div>
+
+
+        <!-- PROFILE HEADER -->
+
+        <div class="profile-header">
+
+            <div class="avatar">
+                {{ request.user.first_name|first|upper }}
+            </div>
+
+            <div>
+
+                <h2>
+                    {{ request.user.first_name }}
+                </h2>
+
+                <p>
+                    NEET Student
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- ACCOUNT INFORMATION -->
+
+        <div class="card">
+
+            <h2>
+                Account Information
+            </h2>
+
+            <div class="info-row">
+
+                <div class="info-label">
+                    Full Name
+                </div>
+
+                <div class="info-value">
+                    {{ request.user.first_name }}
+                </div>
+
+            </div>
+
+
+            <div class="info-row">
+
+                <div class="info-label">
+                    Email
+                </div>
+
+                <div class="info-value">
+                    {{ request.user.email }}
+                </div>
+
+            </div>
+
+
+            <div class="info-row">
+
+                <div class="info-label">
+                    Mobile Number
+                </div>
+
+                <div class="info-value">
+
+                    {% if profile.mobile %}
+                        {{ profile.mobile }}
+                    {% else %}
+                        Not added
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <div class="info-row">
+
+                <div class="info-label">
+                    Username
+                </div>
+
+                <div class="info-value">
+                    {{ request.user.username }}
+                </div>
+
+            </div>
+
+        </div>
+
+<a href="{% url 'edit_profile' %}" class="button">
+    ✏️ Edit Profile
+</a>
+        <!-- STUDY PROFILE -->
+
+        <div class="card">
+
+            <h2>
+                Study Profile
+            </h2>
+
+            <p style="color: #78809b; font-size: 14px; line-height: 1.6;">
+                More study preferences and personalised settings will be
+                added here as neetEase develops.
+            </p>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

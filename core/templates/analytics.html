@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Analytics - neetEase</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f6f7ff;
+            color: #17245c;
+        }
+
+        .page {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            width: 230px;
+            background: white;
+            border-right: 1px solid #e4e6f5;
+            padding: 25px 15px;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 35px;
+            padding-left: 12px;
+        }
+
+        .logo span {
+            color: #5141d9;
+        }
+
+        .menu a {
+            display: block;
+            padding: 13px 15px;
+            margin-bottom: 7px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #657094;
+            font-size: 14px;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background: #eeeeff;
+            color: #5141d9;
+            font-weight: bold;
+        }
+
+        /* MAIN */
+
+        .main {
+            flex: 1;
+            padding: 30px 35px;
+        }
+
+        .header {
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            font-size: 27px;
+            margin-bottom: 7px;
+        }
+
+        .header p {
+            color: #78809b;
+            font-size: 14px;
+        }
+
+        /* STAT CARDS */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid #e5e6f5;
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .stat-icon {
+            font-size: 25px;
+            margin-bottom: 12px;
+        }
+
+        .stat-card h3 {
+            font-size: 13px;
+            color: #78809b;
+            margin-bottom: 8px;
+            font-weight: normal;
+        }
+
+        .stat-card .value {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        /* SECTIONS */
+
+        .section-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #e5e6f5;
+            border-radius: 15px;
+            padding: 25px;
+        }
+
+        .card h2 {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        /* PERFORMANCE */
+
+        .performance {
+            margin-bottom: 20px;
+        }
+
+        .performance-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .progress {
+            height: 9px;
+            background: #eeeeff;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #5141d9;
+            border-radius: 10px;
+        }
+
+        /* RECENT TESTS */
+
+        .test-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 13px 0;
+            border-bottom: 1px solid #eeeeF5;
+            font-size: 13px;
+        }
+
+        .test-row:last-child {
+            border-bottom: none;
+        }
+
+        .score {
+            font-weight: bold;
+            color: #5141d9;
+        }
+
+        /* INSIGHT */
+
+        .insight {
+            background: #eeeeff;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 20px;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #4d5680;
+        }
+
+        @media (max-width: 1000px) {
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .section-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+                width: 180px;
+            }
+
+            .main {
+                padding: 20px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+/* PERSONALIZED STUDY RECOMMENDATIONS */
+
+.recommendations-card {
+    margin-top: 20px;
+}
+
+.recommendations-card h2 {
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    color: #17245c;
+    margin-bottom: 12px;
+}
+
+.recommendations-description {
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #78809b;
+    margin-bottom: 20px;
+}
+
+.recommendation-item {
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 1.6;
+    color: #4d5680;
+    background: #eeeeff;
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 12px;
+}
+
+.recommendation-check {
+    color: #5141d9;
+    font-weight: bold;
+    margin-right: 6px;
+}
+
+.recommendations-note {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    line-height: 1.6;
+    color: #78809b;
+    margin-top: 16px;
+}
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="page">
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            neet<span>Ease</span>
+        </div>
+
+
+        
+<nav class="menu">
+
+    <a href="{% url 'dashboard' %}">
+        🏠 Home
+    </a>
+
+    <a href="{% url 'study_materials' %}">
+        📚 Study Materials
+    </a>
+
+    <a href="{% url 'mock_tests' %}">
+        📝 Mock Tests
+    </a>
+
+    <a href="{% url 'analytics' %}" class="active">
+        📊 Analytics
+    </a>
+
+    <a href="{% url 'wellbeing' %}">
+        ❤️ Well-being
+    </a>
+
+    <a href="{% url 'profile' %}">
+        👤 Profile
+    </a>
+
+    <a href="{% url 'chatbot' %}">
+        🤖 AI Study Assistant
+    </a>
+
+</nav>
+
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+        <div class="header">
+
+            <h1>Analytics 📊</h1>
+
+            <p>
+                Track your NEET preparation and understand your performance.
+            </p>
+
+        </div>
+
+
+        <!-- STAT CARDS -->
+
+        <div class="stats">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    📝
+                </div>
+
+                <h3>Tests Attempted</h3>
+
+                <div class="value">
+                     {{ tests_attempted }}
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    🎯
+                </div>
+
+                <h3>Average Accuracy</h3>
+
+                <div class="value">
+                    {{ average_accuracy }}%
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    🏆
+                </div>
+
+                <h3>Best Score</h3>
+
+                
+<div class="value">
+    {% if best_result %}
+        {{ best_result.accuracy }}%
+    {% else %}
+        0%
+    {% endif %}
+</div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    ❓
+                </div>
+
+                <h3>Questions Attempted</h3>
+
+                <div class="value">
+                    {{ questions_attempted }}
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- LOWER SECTIONS -->
+
+        <div class="section-grid">
+
+
+            <!-- SUBJECT PERFORMANCE -->
+        
+<!-- SUBJECT PERFORMANCE -->
+
+<div class="card">
+    <h2>Subject Performance</h2>
+
+    {% for item in subject_analytics %}
+        <div style="margin: 20px 0;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <strong>{{ item.subject }}</strong>
+
+                {% if item.accuracy is not None %}
+                    <strong>{{ item.accuracy }}%</strong>
+                {% else %}
+                    <strong>No data yet</strong>
+                {% endif %}
+            </div>
+
+            {% if item.accuracy is not None %}
+                <div style="height: 9px; background: #eeeaff; border-radius: 10px; overflow: hidden;">
+                    <div style="height: 100%; width: {{ item.accuracy }}%; background: #6755df; border-radius: 10px;"></div>
+                </div>
+
+                <p style="color: #78809b; font-size: 13px; margin-top: 7px;">
+                    {{ item.questions_attempted }} questions attempted ·
+                    {{ item.tests_attempted }} tests
+                </p>
+            {% else %}
+                <p style="color: #78809b; font-size: 13px;">
+                    Complete a test containing this subject to see your performance.
+                </p>
+            {% endif %}
+        </div>
+    {% empty %}
+        <p style="color: #78809b; font-size: 14px;">
+            Subject performance will appear when subject results are available.
+        </p>
+    {% endfor %}
+</div>
+
+            
+<!-- PERFORMANCE TREND -->
+
+<div class="card">
+
+    <h2>Performance Trend</h2>
+
+    <p style="color: #78809b; font-size: 13px; margin-bottom: 20px;">
+        Accuracy across your seven most recent completed tests.
+    </p>
+
+    {% if chart_data %}
+        {{ chart_data|json_script:"analytics-chart-data" }}
+
+        <div style="position: relative; height: 280px; width: 100%;">
+            <canvas id="performanceChart"></canvas>
+        </div>
+    {% else %}
+        <p style="color: #78809b; font-size: 14px;">
+            Complete your first mock test to see your performance chart.
+        </p>
+    {% endif %}
+
+    <div class="insight">
+        <h3 style="margin-bottom: 12px;">💡 Personalized Insights</h3>
+
+        {% for insight in analytics_insights %}
+            <p style="margin-bottom: 10px;">
+                {{ insight }}
+            </p>
+        {% endfor %}
+    </div>
+
+</div>
+
+
+
+            <!-- RECENT TESTS -->
+
+            <div class="card">
+
+                <h2>Recent Tests</h2>
+
+
+                {% for result in results %}
+    <div class="test-row">
+
+        <span>{{ result.test_name }}</span>
+
+        <span class="score">{{ result.accuracy }}%</span>
+
+    </div>
+{% empty %}
+    <div class="test-row">
+
+        <span>No tests completed yet</span>
+
+        <span class="score">—</span>
+
+    </div>
+{% endfor %}
+
+
+            </div>
+
+
+        </div>
+    
+
+<!-- PERSONALIZED STUDY RECOMMENDATIONS -->
+
+<div class="card recommendations-card">
+
+    <h2>🎯 Your Study Recommendations</h2>
+
+    <p class="recommendations-description">
+        Suggestions generated from your saved mock-test performance.
+    </p>
+
+    {% for recommendation in study_recommendations %}
+
+        <div class="recommendation-item">
+            <span class="recommendation-check">✓</span>{{ recommendation }}
+        </div>
+
+    {% empty %}
+
+        <div class="recommendation-item">
+            Complete a mock test to receive personalized study recommendations.
+        </div>
+
+    {% endfor %}
+
+    <p class="recommendations-note">
+        These are general study suggestions based on recorded performance,
+        not predictions of exam results.
+    </p>
+
+</div>
+
+
+    </main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+{% if chart_data %}
+<script>
+    const chartData = JSON.parse(
+        document.getElementById("analytics-chart-data").textContent
+    );
+
+    const chartCanvas = document.getElementById("performanceChart");
+
+    new Chart(chartCanvas, {
+        type: "line",
+
+        data: {
+            labels: chartData.map(item => item.label),
+
+            datasets: [{
+                label: "Accuracy (%)",
+                data: chartData.map(item => item.accuracy),
+                borderColor: "#5141d9",
+                backgroundColor: "rgba(81, 65, 217, 0.12)",
+                borderWidth: 3,
+                fill: true,
+                tension: 0.3,
+                pointRadius: 5,
+                pointBackgroundColor: "#5141d9"
+            }]
+        },
+
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    min: 0,
+                    max: 100,
+                    title: {
+                        display: true,
+                        text: "Accuracy (%)"
+                    }
+                },
+
+                x: {
+                    ticks: {
+                        maxRotation: 35,
+                        minRotation: 0
+                    }
+                }
+            },
+
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+</script>
+{% endif %}
+</body>
+</html>
+
+</body>
+
+</html>

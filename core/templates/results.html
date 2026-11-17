@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>neetEase - Test Results</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f6f5ff;
+            color: #29264a;
+        }
+
+        .page {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 240px;
+            background: white;
+            border-right: 1px solid #e7e4f5;
+            padding: 28px 18px;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #27234d;
+            padding: 0 15px;
+            margin-bottom: 40px;
+        }
+
+        .logo span {
+            color: #7667e8;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: #66637a;
+            padding: 14px 15px;
+            border-radius: 12px;
+        }
+
+        .menu a:hover {
+            background: #f0edff;
+            color: #6d5ce7;
+        }
+
+        .main {
+            margin-left: 240px;
+            width: calc(100% - 240px);
+            padding: 50px;
+        }
+
+        .result-card {
+            max-width: 750px;
+            margin: 30px auto;
+            background: white;
+            border-radius: 22px;
+            padding: 45px;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(75, 63, 140, 0.08);
+        }
+
+        .icon {
+            font-size: 55px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #77748b;
+            margin-bottom: 35px;
+        }
+
+        .score {
+            font-size: 52px;
+            font-weight: bold;
+            color: #7565e8;
+            margin-bottom: 8px;
+        }
+
+        .score-text {
+            color: #77748b;
+            margin-bottom: 30px;
+        }
+
+        .stats {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 35px;
+        }
+
+        .stat {
+            background: #f6f5ff;
+            border-radius: 14px;
+            padding: 20px;
+            min-width: 130px;
+        }
+
+        .stat strong {
+            display: block;
+            font-size: 24px;
+            color: #29264a;
+            margin-bottom: 5px;
+        }
+
+        .stat span {
+            font-size: 13px;
+            color: #77748b;
+        }
+
+        .button {
+            display: inline-block;
+            text-decoration: none;
+            background: #7565e8;
+            color: white;
+            padding: 14px 28px;
+            border-radius: 11px;
+            font-weight: bold;
+        }
+
+        .button:hover {
+            background: #6252d4;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="page">
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            neet<span>Ease</span>
+        </div>
+
+        <nav class="menu">
+
+            <a href="{% url 'dashboard' %}">
+                🏠 Home
+            </a>
+
+            <a href="{% url 'study_materials' %}">
+                📚 Study Materials
+            </a>
+
+            <a href="{% url 'mock_tests' %}">
+                📝 Mock Tests
+            </a>
+
+            <a href="#">
+                📊 Analytics
+            </a>
+
+            <a href="#">
+                ❤️ Well-being
+            </a>
+
+            <a href="#">
+                ⏰ Reminders
+            </a>
+
+            <a href="#">
+                👤 Profile
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <main class="main">
+
+        <div class="result-card">
+
+            <div class="icon">🎉</div>
+
+            <h1>Test Completed!</h1>
+
+            <p class="subtitle">
+                Great job! Here's your performance.
+            </p>
+
+            <div class="score">
+    {{ score }} / {{ total_questions }}
+</div>
+
+            <p class="score-text">
+                Questions answered correctly
+            </p>
+
+            <div class="stats">
+
+                <div class="stat">
+    <strong>{{ score }}</strong>
+    <span>Correct</span>
+</div>
+
+                <div class="stat">
+    <strong>{{ total_questions }}</strong>
+    <span>Questions</span>
+</div>
+
+                <div class="stat">
+    <strong>{{ accuracy }}%</strong>
+    <span>Accuracy</span>
+</div>
+
+            </div>
+
+            <div style="margin-top: 30px; text-align: left;">
+
+    <h2 style="margin-bottom: 20px;">
+        Question Review
+    </h2>
+
+    {% for item in review %}
+
+    <div style="
+        background: #f6f5ff;
+        padding: 18px;
+        border-radius: 14px;
+        margin-bottom: 12px;
+    ">
+
+        <strong>
+            Question {{ item.number }}
+        </strong>
+
+        <p style="margin: 8px 0;">
+            {{ item.question }}
+        </p>
+
+        <p>
+            Your answer:
+            <strong>{{ item.selected }}</strong>
+        </p>
+
+        <p>
+            Correct answer:
+            <strong>{{ item.correct }}</strong>
+        </p>
+
+        <p style="margin-top: 8px;">
+            {{ item.result }}
+        </p>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+        <a href="{% url 'mock_tests' %}" class="button">
+                Take Another Test
+            </a>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>
