@@ -1,312 +1,136 @@
-# \# neetEase – AI-Powered NEET Preparation \& Student Well-being Platform
+# neetEase
+
+ AI-Powered NEET Preparation & Student Well-being Platform
+
+An integrated educational platform that combines **Web Development, Data Science and Machine Learning** to support NEET aspirants through personalized learning, academic analytics and student well-being monitoring.
+
+---
+
+ ✨ Features
+
+| Module                | Description                                           |
+| --------------------- | ----------------------------------------------------- |
+| Student Dashboard     | Centralized student activity overview                 |
+| Study Materials       | Subject-wise Physics, Chemistry and Biology resources |
+| Mock Tests            | Interactive tests with automated scoring              |
+| Performance Analytics | Score tracking, accuracy analysis and visualizations  |
+| Well-being Tracker    | Daily mood, stress, sleep and study-hour tracking     |
+| Stress Prediction     | ML-based student stress-level prediction              |
+| Personalized Insights | Data-driven student recommendations                   |
+| Student Profile       | Account and profile management                        |
 
-# 
+ 🧠 Machine Learning
 
-# neetEase is an integrated web-based platform designed to support NEET aspirants through personalized study resources, mock tests, academic performance analytics, and student well-being monitoring.
+**Objective:** Predict student stress levels using lifestyle-related factors.
 
-# 
+- **Algorithm:** Logistic Regression
+- **Dataset:** Daily Lifestyle and Academic Performance of Students
+- **Records:** 2,000
+- **Input Features:** Study hours, extracurricular hours, sleep hours, social hours and physical activity hours
+- **Target:** Stress_Level
+- **Preprocessing:** SimpleImputer and StandardScaler
+- **Model Storage:** Joblib
 
-# The project combines Django, Data Science, and Machine Learning to provide a more personalized and data-driven learning experience.
+Model Performance
 
-# 
+\<details> \<summary>\<b>Evaluation details\</b>\</summary>
 
-# \## Key Features
+| Metric         | Result |
+| -------------- | -----: |
+| Test Accuracy  | 84.25% |
+| Training Split |    80% |
+| Testing Split  |    20% |
+| Random State   |     42 |
 
-# 
+\</details>
 
-# \- \*\*Student Dashboard:\*\* Centralized access to learning and well-being features.
+🛠️ Technology Stack
 
-# \- \*\*Study Materials:\*\* Subject-wise learning resources for Physics, Chemistry, and Biology.
+| Area              | Technologies          |
+| ----------------- | --------------------- |
+| Backend           | Python, Django        |
+| Frontend          | HTML, CSS, JavaScript |
+| Database          | SQLite                |
+| Data Analysis     | Pandas, NumPy         |
+| Machine Learning  | Scikit-learn          |
+| Visualization     | Chart.js, Matplotlib  |
+| Model Persistence | Joblib                |
 
-# \- \*\*Mock Tests:\*\* Interactive tests with automated scoring and result tracking.
+ 📁 Project Structure
 
-# \- \*\*Performance Analytics:\*\* Visual analysis of test scores, accuracy, and academic progress.
+```text
+neetEase/
+├── config/             # Django configuration
+├── core/
+│   ├── migrations/     # Database migrations
+│   ├── templates/      # HTML templates
+│   ├── models.py       # Database models
+│   ├── views.py        # Application views
+│   └── admin.py
+├── ml/
+│   ├── artifacts/      # Trained model and evaluation
+│   ├── train_model.py
+│   └── test_prediction.py
+├── manage.py
+├── requirements.txt
+└── .gitignore
+```
 
-# \- \*\*Well-being Monitoring:\*\* Daily tracking of mood, stress, sleep, and study hours.
+🚀 Installation
 
-# \- \*\*AI-Based Stress Prediction:\*\* Machine Learning model that predicts stress categories using lifestyle patterns.
+**1. Clone the repository**
 
-# \- \*\*Personalized Insights:\*\* Recommendations based on student performance and lifestyle information.
+```bash
+git clone https://github.com/neyhaa06/NEETease.git
+cd NEETease
+```
 
-# \- \*\*Student Profile:\*\* Account management and profile information.
+**2. Create and activate a virtual environment**
 
-# 
+```bash
+python -m venv .venv
+.venv\Scripts\activate
+```
 
-# \## Machine Learning Implementation
+**3. Install dependencies**
 
-# 
+```bash
+pip install -r requirements.txt
+```
 
-# The project uses a Logistic Regression classifier to predict student stress levels.
+**4. Configure environment variables**
 
-# 
+Create a `.env` file in the project root:
 
-# \*\*Dataset:\*\* Daily Lifestyle and Academic Performance of Students
+```env
+SECRET_KEY=your-secret-key
+DEBUG=True
+ALLOWED_HOSTS=127.0.0.1,localhost
+```
 
-# 
+**5. Apply migrations**
 
-# \*\*Dataset characteristics:\*\*
+```bash
+python manage.py migrate
+```
 
-# \- 2,000 student records
+**6. Run the application**
 
-# \- Five lifestyle-based input features
+```bash
+python manage.py runserver
+```
 
-# \- Target variable: Stress\_Level
+Open `http://127.0.0.1:8000/` in your browser.
 
-# 
+🔮 Future Enhancements
 
-# \*\*Input features:\*\*
+- Advanced academic performance prediction
+- Enhanced personalized study recommendations
+- Expanded student analytics
+- Improved AI-driven student support
 
-# \- Study Hours Per Day
+ 👩‍💻 Project
 
-# \- Extracurricular Hours Per Day
+**neetEase** — A Data Science and Machine Learning integrated educational platform.
 
-# \- Sleep Hours Per Day
-
-# \- Social Hours Per Day
-
-# \- Physical Activity Hours Per Day
-
-# 
-
-# \*\*Model:\*\* Logistic Regression
-
-# 
-
-# \*\*Preprocessing:\*\* SimpleImputer and StandardScaler
-
-# 
-
-# \*\*Evaluation:\*\*
-
-# \- Train-test split: 80:20
-
-# \- Random state: 42
-
-# \- Model accuracy: 84.25%
-
-# 
-
-# The trained model is saved using Joblib and used for stress prediction.
-
-# 
-
-# \## Technology Stack
-
-# 
-
-# | Category | Technologies |
-
-# |---|---|
-
-# | Backend | Python, Django |
-
-# | Frontend | HTML, CSS, JavaScript |
-
-# | Database | SQLite |
-
-# | Data Analysis | Pandas, NumPy |
-
-# | Machine Learning | Scikit-learn |
-
-# | Model Storage | Joblib |
-
-# | Visualization | Chart.js, Matplotlib |
-
-# | Development | Visual Studio Code |
-
-# 
-
-# \## Project Structure
-
-# 
-
-# ```text
-
-# neetEase/
-
-# │
-
-# ├── config/
-
-# │   ├── settings.py
-
-# │   ├── urls.py
-
-# │   ├── asgi.py
-
-# │   └── wsgi.py
-
-# │
-
-# ├── core/
-
-# │   ├── migrations/
-
-# │   ├── templates/
-
-# │   ├── data/
-
-# │   ├── models.py
-
-# │   ├── views.py
-
-# │   └── admin.py
-
-# │
-
-# ├── ml/
-
-# │   ├── artifacts/
-
-# │   │   ├── stress\_classifier.joblib
-
-# │   │   └── evaluation.json
-
-# │   ├── train\_model.py
-
-# │   └── test\_prediction.py
-
-# │
-
-# ├── manage.py
-
-# ├── requirements.txt
-
-# └── .gitignore
-
-# ```
-
-# 
-
-# \## Installation and Setup
-
-# 
-
-# \### 1. Clone the repository
-
-# 
-
-# ```bash
-
-# git clone https://github.com/neyhaa06/NEETease.git
-
-# cd NEETease
-
-# ```
-
-# 
-
-# \### 2. Create a virtual environment
-
-# 
-
-# ```bash
-
-# python -m venv .venv
-
-# ```
-
-# 
-
-# \### 3. Activate the environment
-
-# 
-
-# Windows PowerShell:
-
-# 
-
-# ```powershell
-
-# .\\.venv\\Scripts\\Activate.ps1
-
-# ```
-
-# 
-
-# \### 4. Install dependencies
-
-# 
-
-# ```bash
-
-# pip install -r requirements.txt
-
-# ```
-
-# 
-
-# \### 5. Configure environment variables
-
-# 
-
-# Create a `.env` file in the project root:
-
-# 
-
-# ```env
-
-# SECRET\_KEY=your-django-secret-key
-
-# DEBUG=True
-
-# ALLOWED\_HOSTS=127.0.0.1,localhost
-
-# ```
-
-# 
-
-# Never upload your `.env` file or expose your secret key.
-
-# 
-
-# \### 6. Run database migrations
-
-# 
-
-# ```bash
-
-# python manage.py migrate
-
-# ```
-
-# 
-
-# \### 7. Start the development server
-
-# 
-
-# ```bash
-
-# python manage.py runserver
-
-# ```
-
-# 
-
-# Open http://127.0.0.1:8000/ in your browser.
-
-# 
-
-# \## Future Enhancements
-
-# 
-
-# \- Advanced student performance prediction.
-
-# \- Improved personalized study recommendations.
-
-# \- Expanded educational analytics.
-
-# \- Enhanced AI-driven student support.
-
-# 
-
-# \## Project Purpose
-
-# 
-
-# neetEase demonstrates the practical application of web development, data analysis, and machine learning to an educational problem, with a focus on both academic performance and student well-being.
-
-
-
+Developed by **Neha Fathima**.
