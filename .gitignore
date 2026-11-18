@@ -29,3 +29,5 @@ Thumbs.db
 
 # Temporary files
 *.tmp
+# Student dataset - pending licence verification
+core/data/
