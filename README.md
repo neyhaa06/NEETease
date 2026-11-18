@@ -134,3 +134,16 @@ Open `http://127.0.0.1:8000/` in your browser.
 **neetEase** — A Data Science and Machine Learning integrated educational platform.
 
 Developed by **Neha Fathima**.
+📸 Screenshots
+
+ Dashboard
+![Dashboard](screenshots/dashboard.png)
+
+Mock Tests
+![Mock Tests](screenshots/mock-tests.png)
+
+Performance Analytics
+![Analytics](screenshots/analytics.png)
+
+ Student Well-being
+![Well-being](screenshots/wellbeing.png)
